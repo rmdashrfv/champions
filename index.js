@@ -1,4 +1,5 @@
 const classSelector = document.getElementById('class-select')
+const charImg = document.getElementById('char-img')
 const baseImgUrl = 'https://www.dndbeyond.com/attachments/thumbnails/0/'
 const portraitMap = {
   'barbarian': '679/400/417/c3barbarianintro.png',
@@ -28,14 +29,11 @@ let request = async () => {
   })
 
   classSelector.addEventListener('change', (e) => {
-    document.getElementById('selected-class').innerText = e.target.value
-    let img = document.createElement('img')
-    img.id = 'char-img'
-    img.src = `${baseImgUrl}${portraitMap[e.target.value.toLowerCase()]}`
+    document.getElementById('selected-class').innerText = e.target.value    
+    let src = `${baseImgUrl}${portraitMap[e.target.value.toLowerCase()]}`
+    charImg.src = src
+    charImg.classList.remove('hidden')
     console.log(e.target.value)
-    img.setAttribute('width', '400px')
-    img.setAttribute('height', '400px')
-    document.body.append(img)
   })
 }
 
