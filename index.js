@@ -1,5 +1,6 @@
 const classSelector = document.getElementById('class-select')
 const charImg = document.getElementById('char-img')
+const profList = document.getElementById('proficiencies-list')
 const baseImgUrl = 'https://www.dndbeyond.com/attachments/thumbnails/0/'
 const portraitMap = {
   'barbarian': '679/400/417/c3barbarianintro.png',
@@ -27,12 +28,21 @@ let request = async () => {
     option.innerText = char.name
     classSelector.append(option)
   })
-
-  classSelector.addEventListener('change', (e) => {
+  
+  classSelector.addEventListener('change', async (e) => {
     document.getElementById('selected-class').innerText = e.target.value    
     let src = `${baseImgUrl}${portraitMap[e.target.value.toLowerCase()]}`
     charImg.src = src
     charImg.classList.remove('hidden')
+    req = await fetch(`https://www.dnd5eapi.co/api/classes/${e.target.value.toLowerCase()}`)
+    res = await req.json()
+    profList.innerHTML = ''
+    res.proficiencies.forEach((prof) => {
+      let li = document.createElement('li')
+      li.innerText = prof.name
+      profList.append(li)
+    })
+    profList.classList.remove('hidden')
     console.log(e.target.value)
   })
 }
